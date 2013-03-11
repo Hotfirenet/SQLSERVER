@@ -6,20 +6,20 @@
 
 -- Source de cette fonction http://stackoverflow.com/questions/266924/create-a-date-with-t-sql
 --create function [dbo].[fnDateTime2FromParts](@Year int, @Month int, @Day int, @Hour int, @Minute int, @Second int, @Nanosecond int)
---  returns datetime2
---  as
---  begin
---  	-- Note! SQL Server 2012 includes datetime2fromparts() function
---  	declare @output datetime2 = '19000101'
---  	set @output = dateadd(year      , @Year - 1900  , @output)
---  	set @output = dateadd(month     , @Month - 1    , @output)
---  	set @output = dateadd(day       , @Day - 1      , @output)
---  	set @output = dateadd(hour      , @Hour         , @output)
---  	set @output = dateadd(minute    , @Minute       , @output)
---  	set @output = dateadd(second    , @Second       , @output)
---  	set @output = dateadd(ns        , @Nanosecond   , @output)
---  	return @output
---  end
+--    returns datetime2
+--    as
+--    begin
+--    	-- Note! SQL Server 2012 includes datetime2fromparts() function
+--    	declare @output datetime2 = '19000101'
+--    	set @output = dateadd(year      , @Year - 1900  , @output)
+--    	set @output = dateadd(month     , @Month - 1    , @output)
+--    	set @output = dateadd(day       , @Day - 1      , @output)
+--    	set @output = dateadd(hour      , @Hour         , @output)
+--    	set @output = dateadd(minute    , @Minute       , @output)
+--    	set @output = dateadd(second    , @Second       , @output)
+--    	set @output = dateadd(ns        , @Nanosecond   , @output)
+--    	return @output
+--    end
 
 -- Source de ce scrit http://www.xoowiki.com/Article/SQL/liste-des-jours-feries-47.aspx
 DECLARE @JoursFeries AS TABLE  (      
@@ -64,20 +64,20 @@ SET @MoisPaque = 3 + (@L + 40) / 44
 SET @JourPaque = @L + 28 - 31 * (@MoisPaque / 4)      
        
 -- Jours fériés mobiles             
-SET @DimPaque = Infocentre.dbo.fnDateTime2FromParts(@an, @MoisPaque, @JourPaque, 0, 0, 0, 0)      
+SET @DimPaque = dbo.fnDateTime2FromParts(@an, @MoisPaque, @JourPaque, 0, 0, 0, 0)      
 SET @LunPaque = DATEADD(DAY, 1, @DimPaque)      
 SET @JeuAscension = DATEADD(DAY, 39, @DimPaque)      
 SET @LunPentecote = DATEADD(DAY, 50, @DimPaque)      
        
 -- Jours fériés fixes             
-SET @NouvelAn = Infocentre.dbo.fnDateTime2FromParts(@an, 01, 01, 0, 0, 0, 0) --DATEFROMPARTS(@an, 1, 1) -- cast(cast(@an AS VARCHAR(4))+'-01-01 00:00:00' AS DATETIME)
-SET @FeteTravail = Infocentre.dbo.fnDateTime2FromParts(@an, 05, 01, 0, 0, 0, 0) --DATEFROMPARTS(@an, 5, 1) -- cast(cast(@an AS VARCHAR(4))+'-05-01 00:00:00' AS DATETIME)
-SET @Armistice3945 = Infocentre.dbo.fnDateTime2FromParts(@an, 05, 08, 0, 0, 0, 0) --DATEFROMPARTS(@an, 5, 8) -- cast(cast(@an AS VARCHAR(4))+'-05-08 00:00:00' AS DATETIME)      
-SET @Assomption = Infocentre.dbo.fnDateTime2FromParts(@an, 08, 15, 0, 0, 0, 0) --DATEFROMPARTS(@an, 8, 15) --cast(cast(@an AS VARCHAR(4))+'-08-15 00:00:00' AS DATETIME)      
-SET @Armistice1418 = Infocentre.dbo.fnDateTime2FromParts(@an, 11, 11, 0, 0, 0, 0) --DATEFROMPARTS(@an, 11, 11) --cast(cast(@an AS VARCHAR(4))+'-11-11 00:00:00' AS DATETIME)      
-SET @FeteNationale = Infocentre.dbo.fnDateTime2FromParts(@an, 07, 14, 0, 0, 0, 0) --DATEFROMPARTS(@an, 7, 14) --cast(cast(@an AS VARCHAR(4))+'-07-14 00:00:00' AS DATETIME)      
-SET @ToussaINT = Infocentre.dbo.fnDateTime2FromParts(@an, 11, 01, 0, 0, 0, 0) --DATEFROMPARTS(@an, 11, 1) --cast(cast(@an AS VARCHAR(4))+'-11-01 00:00:00' AS DATETIME)      
-SET @Noel = Infocentre.dbo.fnDateTime2FromParts(@an, 12, 25, 0, 0, 0, 0) --DATEFROMPARTS(@an, 5, 1) --cast(cast(@an AS VARCHAR(4))+'-12-25 00:00:00' AS DATETIME)    
+SET @NouvelAn = dbo.fnDateTime2FromParts(@an, 01, 01, 0, 0, 0, 0) --DATEFROMPARTS(@an, 1, 1) -- cast(cast(@an AS VARCHAR(4))+'-01-01 00:00:00' AS DATETIME)
+SET @FeteTravail = dbo.fnDateTime2FromParts(@an, 05, 01, 0, 0, 0, 0) --DATEFROMPARTS(@an, 5, 1) -- cast(cast(@an AS VARCHAR(4))+'-05-01 00:00:00' AS DATETIME)
+SET @Armistice3945 = dbo.fnDateTime2FromParts(@an, 05, 08, 0, 0, 0, 0) --DATEFROMPARTS(@an, 5, 8) -- cast(cast(@an AS VARCHAR(4))+'-05-08 00:00:00' AS DATETIME)      
+SET @Assomption = dbo.fnDateTime2FromParts(@an, 08, 15, 0, 0, 0, 0) --DATEFROMPARTS(@an, 8, 15) --cast(cast(@an AS VARCHAR(4))+'-08-15 00:00:00' AS DATETIME)      
+SET @Armistice1418 = dbo.fnDateTime2FromParts(@an, 11, 11, 0, 0, 0, 0) --DATEFROMPARTS(@an, 11, 11) --cast(cast(@an AS VARCHAR(4))+'-11-11 00:00:00' AS DATETIME)      
+SET @FeteNationale = dbo.fnDateTime2FromParts(@an, 07, 14, 0, 0, 0, 0) --DATEFROMPARTS(@an, 7, 14) --cast(cast(@an AS VARCHAR(4))+'-07-14 00:00:00' AS DATETIME)      
+SET @ToussaINT = dbo.fnDateTime2FromParts(@an, 11, 01, 0, 0, 0, 0) --DATEFROMPARTS(@an, 11, 1) --cast(cast(@an AS VARCHAR(4))+'-11-01 00:00:00' AS DATETIME)      
+SET @Noel = dbo.fnDateTime2FromParts(@an, 12, 25, 0, 0, 0, 0) --DATEFROMPARTS(@an, 5, 1) --cast(cast(@an AS VARCHAR(4))+'-12-25 00:00:00' AS DATETIME)    
 -- Il faut que je test le DATEFROMPARTS sur SQLSERVEUR 2012 -- http://msdn.microsoft.com/en-us/library/hh213228.aspx
        
 INSERT  INTO @JoursFeries (JourDate, JoURLabel, JourChome)  
